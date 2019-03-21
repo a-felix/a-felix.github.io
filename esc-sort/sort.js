@@ -1,4 +1,4 @@
-﻿var entryInfo = {}, order = [], dom = {}, tableRows = [], noOfEntries = 0;
+﻿var entryInfo = {}, order = [], dom = {}, tableRows = [], noOfEntries = 0, yr = 2019;
 var table = document.createElement("TABLE");
 {
 	let addEntry = function (code, show, country, artist, song, note) {
@@ -54,13 +54,36 @@ var table = document.createElement("TABLE");
 	}
 	defineEntries();
 }
+function verifyOrder() {
+	var idx = 0, lgt = order.length, ver = {};
+	window.ver = ver;
+	while (idx < order.length) {
+		if (typeof order[idx] === "undefined" || typeof entryInfo[order[idx]] === "undefined" || typeof ver[order[idx]] !== "undefined") {
+			order.splice(idx, 1);
+			lgt--;
+		}
+		else {
+			ver[order[idx]] = true;
+			idx++;
+		}
+	}
+	for (idx in entryInfo) {
+		if (typeof ver[idx] === "undefined") {
+			order.push(idx);
+			ver[idx] = true;
+		}
+	}
+}
 function defaultOrder() {
-	var savedOrder = localStorage.getItem("escSort");
-	if (savedOrder) {
-		savedOrder = JSON.parse(savedOrder);
-		if (savedOrder.length) {
-			order = savedOrder;
-			return;
+	if (localStorage.getItem("escSortYr") == yr) {
+		var savedOrder = localStorage.getItem("escSort");
+		if (savedOrder) {
+			savedOrder = JSON.parse(savedOrder);
+			if (savedOrder.length) {
+				order = savedOrder;
+				verifyOrder();
+				return;
+			}
 		}
 	}
 	for (var code in entryInfo) order.push(code);
@@ -224,19 +247,18 @@ function init() {
 				let ns = indexOf(ranks, this);
 				let no_ = no == Math.min(no, ns);
 				selectedNow = undefined;
-				console.log(no + " => " + ns);
 				let step = x => (x + 1);
 				if (!no_) step = x => (x - 1);
 				let aux = order[no];
 				let idx = no;
 				for (idx = no; idx != ns; idx = step(idx)) {
-					console.log("appendCells(" + idx + ", order[" + step(idx) + "] = " + order[step(idx)] + ")")
 					appendCells(idx, order[step(idx)]);
 					order[idx] = order[step(idx)];
 				}
 				appendCells(ns, aux);
 				order[ns] = aux;
 				localStorage.setItem("escSort", JSON.stringify(order));
+				localStorage.setItem("escSortYr", yr);
 			}
 		}
 		for (let rank of ranks) {
