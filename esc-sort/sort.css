@@ -57,7 +57,7 @@ table > tr > th, table > * > tr > th {
 .note {
 	font-size: 85%;
 	user-select: none;
-	/display: none;
+	display: none;
 }
 .note > .note {
 	font-size: inherit;
