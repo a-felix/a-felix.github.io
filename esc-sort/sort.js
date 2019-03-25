@@ -1,8 +1,18 @@
-﻿var order = [], dom = {}, tableRows = [], saveCode = null, sharedLink = false, autosave = JSON.parse(localStorage.getItem("autosave"));
+﻿var order = [], dom = {}, noOfEntries = 0, entryInfo = {}, tableRows = [], saveCode = null, sharedLink = false, autosave = JSON.parse(localStorage.getItem("escSortAutosave")), yr;
 if (autosave === null) autosave = true;
 var toCode = { at: "A", be: "B", cz: "C", de: "D", es: "E", fr: "F", gb: "G", hu: "H", it: "I", is: "J", kz: "K", lu: "L", mt: "M", no: "N", au: "O", pt: "P", mk: "Q", ro: "R", se: "S", tr: "T", ua: "U", si: "V", wa: "W", hr: "X", yu: "Y", az: "Z", am: "a", bg: "b", cy: "c", dk: "d", ee: "e", fi: "f", gr: "g", ch: "h", il: "i", ie: "j", ks: "k", lv: "l", me: "m", nl: "n", md: "o", pl: "p", al: "q", ru: "r", rs: "s", lt: "t", us: "u", sk: "v", mc: "w", ah: "x", by: "y", ba: "z", ma: "0", li: "1", ad: "2", lb: "3", ps: "4", sm: "5", ge: "6", ts: "7", fo: "8", aa: "9", cs: "+", ab: "-", kk: "*", eh: "/", ca: "^", os: "_", ax: "@", ce: "=" };
 var fromCode = {};
 for (let idx in toCode) { fromCode[toCode[idx]] = idx }
+{
+	let addEntry = function (code, show, country, artist, song, note) {
+		entryInfo[code] = {"country": country, "show": show, "artist": artist, "song": song};
+		if (typeof note !== "undefined") entryInfo[code].note = note;
+		noOfEntries++;
+	}
+	window.defineEntries(addEntry);
+	window.defineEntries = undefined;
+	delete window.defineEntries;
+}
 function verifyOrder() {
 	var idx = 0, lgt = order.length, ver = {};
 	window.ver = ver;
@@ -61,20 +71,6 @@ function initTable() {
 	for (var h of headers) headerRow.appendChild(document.createElement("TH")).appendChild(document.createTextNode(h));
 	table.appendChild(headerRow);
 }
-{/*
-	let p1 = function (no) { return no + 1; }
-	let m1 = function (no) { return no - 1; }
-	let sw = function (no, fn) {
-		var ns = fn(no), aux;
-		appendCells(no, order[ns]);
-		appendCells(ns, order[no]);
-		aux = order[no];
-		order[no] = order[ns];
-		order[ns] = aux;
-	}
-	function up(no) { sw(no, m1); }
-	function dn(no) { sw(no, p1); }
-*/}
 function appendCells(idx, code) {
 	for (var cell of dom[code]) tableRows[idx].appendChild(cell);
 	tableRows[idx].className = "show" + entryInfo[code].show;
@@ -85,26 +81,7 @@ function createRows() {
 		let rankCell = document.createElement("TD");
 		rankCell.className = "rank";
 		rankCell.appendChild(document.createTextNode((++count) + "."));
-		/*
-		let switchCell = document.createElement("TD");
-		switchCell.className = "switch";
-		let upBtn = document.createElement("BUTTON");
-		let dnBtn = document.createElement("BUTTON");
-		upBtn.appendChild(document.createTextNode("\u25B2"));
-		dnBtn.appendChild(document.createTextNode("\u25BC"));
-		upBtn.className = "upBtn";
-		dnBtn.className = "dnBtn";
-		upBtn.setAttribute("no", count - 1);
-		dnBtn.setAttribute("no", count - 1);
-		upBtn.onclick = function(){up(parseInt(this.getAttribute("no")));};
-		dnBtn.onclick = function(){dn(parseInt(this.getAttribute("no")));};
-		if (count == 1) upBtn.setAttribute("disabled", "disabled");
-		if (count == noOfEntries) dnBtn.setAttribute("disabled", "disabled");
-		switchCell.appendChild(upBtn);
-		switchCell.appendChild(dnBtn);
-		*/
 		row.appendChild(rankCell);
-		/* row.appendChild(switchCell); */
 		tableRows.push(row);
 		table.appendChild(row);
 	}
@@ -120,7 +97,7 @@ function createDOMs() {
 	for (var code of order) {
 		let e = entryInfo[code];
 		let flag = document.createElement("IMG");
-		flag.src = "flags/" + code + ".png";
+		flag.src = "../flags/" + code + ".png";
 		flag.className = "flag";
 		let ctyCell = document.createElement("TD");
 		ctyCell.appendChild(flag);
@@ -175,7 +152,7 @@ function showEntries() {
 	}
 	let toggleAutosave = function (btn, saveBtn) {
 		autosave = !autosave;
-		localStorage.setItem("autosave", autosave);
+		localStorage.setItem("escSortAutosave", autosave);
 		if (autosave) {
 			btn.className = "on";
 			btn.setAttribute("title", "Autosave ON");
