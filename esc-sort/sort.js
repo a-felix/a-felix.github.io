@@ -1,4 +1,8 @@
-﻿var order = [], dom = {}, tableRows = [];
+﻿var order = [], dom = {}, tableRows = [], saveCode = null, sharedLink = false, autosave = JSON.parse(localStorage.getItem("autosave"));
+if (autosave === null) autosave = true;
+var toCode = { at: "A", be: "B", cz: "C", de: "D", es: "E", fr: "F", gb: "G", hu: "H", it: "I", is: "J", kz: "K", lu: "L", mt: "M", no: "N", au: "O", pt: "P", mk: "Q", ro: "R", se: "S", tr: "T", ua: "U", si: "V", wa: "W", hr: "X", yu: "Y", az: "Z", am: "a", bg: "b", cy: "c", dk: "d", ee: "e", fi: "f", gr: "g", ch: "h", il: "i", ie: "j", ks: "k", lv: "l", me: "m", nl: "n", md: "o", pl: "p", al: "q", ru: "r", rs: "s", lt: "t", us: "u", sk: "v", mc: "w", ah: "x", by: "y", ba: "z", ma: "0", li: "1", ad: "2", lb: "3", ps: "4", sm: "5", ge: "6", ts: "7", fo: "8", aa: "9", cs: "+", ab: "-", kk: "*", eh: "/", ca: "^", os: "_", ax: "@", ce: "=" };
+var fromCode = {};
+for (let idx in toCode) { fromCode[toCode[idx]] = idx }
 function verifyOrder() {
 	var idx = 0, lgt = order.length, ver = {};
 	window.ver = ver;
@@ -20,13 +24,29 @@ function verifyOrder() {
 	}
 }
 function defaultOrder() {
-	if (localStorage.getItem("escSortYr") == yr) {
-		var savedOrder = localStorage.getItem("escSort");
+	if (document.URL.indexOf("?") != -1) {
+		var savedOrder = [...document.URL.split("?")[1]].map(ch => fromCode[ch]);
+		if (savedOrder.length) {
+			order = savedOrder;
+			verifyOrder();
+			if (typeof order[0] !== "undefined") {
+				autosave = false;
+				sharedLink = true;
+			}
+			try { history.replaceState(null, null, ".") }
+			catch {}
+			return;
+		}
+	}
+	if (typeof localStorage.getItem("escSort" + yr) !== "undefined") {
+		var savedOrder = localStorage.getItem("escSort" + yr);
 		if (savedOrder) {
-			savedOrder = JSON.parse(savedOrder);
+			savedOrder = [...savedOrder].map(el => fromCode[el]);
 			if (savedOrder.length) {
 				order = savedOrder;
 				verifyOrder();
+				try { history.replaceState(null, null, ".") }
+				catch {}
 				return;
 			}
 		}
@@ -36,12 +56,12 @@ function defaultOrder() {
 	//order = order.sort(() => (Math.random() - 0.5));
 }
 function initTable() {
-	var headers = ["Rank", "Change", "Country", "Artist", "Song"];
+	var headers = ["Rank", "Country", "Artist", "Song"];
 	var headerRow = document.createElement("TR");
 	for (var h of headers) headerRow.appendChild(document.createElement("TH")).appendChild(document.createTextNode(h));
 	table.appendChild(headerRow);
 }
-{
+{/*
 	let p1 = function (no) { return no + 1; }
 	let m1 = function (no) { return no - 1; }
 	let sw = function (no, fn) {
@@ -54,7 +74,7 @@ function initTable() {
 	}
 	function up(no) { sw(no, m1); }
 	function dn(no) { sw(no, p1); }
-}
+*/}
 function appendCells(idx, code) {
 	for (var cell of dom[code]) tableRows[idx].appendChild(cell);
 	tableRows[idx].className = "show" + entryInfo[code].show;
@@ -65,6 +85,7 @@ function createRows() {
 		let rankCell = document.createElement("TD");
 		rankCell.className = "rank";
 		rankCell.appendChild(document.createTextNode((++count) + "."));
+		/*
 		let switchCell = document.createElement("TD");
 		switchCell.className = "switch";
 		let upBtn = document.createElement("BUTTON");
@@ -81,8 +102,9 @@ function createRows() {
 		if (count == noOfEntries) dnBtn.setAttribute("disabled", "disabled");
 		switchCell.appendChild(upBtn);
 		switchCell.appendChild(dnBtn);
+		*/
 		row.appendChild(rankCell);
-		row.appendChild(switchCell);
+		/* row.appendChild(switchCell); */
 		tableRows.push(row);
 		table.appendChild(row);
 	}
@@ -144,71 +166,101 @@ function showEntries() {
 		document.body.appendChild(document.createTextNode(e.country + e.artist + e.song));
 	}
 }
-function toggleDisplay() {
-	if (document.body.className) document.body.className = "";
-	else document.body.className = "display";
-}
-function createToggleButton() {
-	var btn = document.createElement("TOGGLE-BUTTON");
-	btn.id = "zoom";
-	btn.onclick = toggleDisplay;
-	document.body.appendChild(btn);
-}
-function showTable() {
-	initTable();
-	createRows();
-	createDOMs();
-	document.body.appendChild(table);
-}
-var table = document.createElement("TABLE");
-function init() {
-	defaultOrder();
-	showTable();
-	createToggleButton();
-	{
-		let selectSeq = false;
-		let ranks = document.getElementsByClassName("rank");
-		let indexOf = function(arr, elem) {
-			for (var idx in arr) {
-				if (arr[idx] == elem) return parseInt(idx);
-			}
-			return -1;
+{
+	let btns = {};
+	let save = function (autosaveBtn) {
+		localStorage.setItem("escSort" + yr, saveCode = order.map(el => toCode[el]).join(""));
+		try { history.replaceState(null, null, ".") } catch {}
+		if (!autosave) autosaveBtn.style.display = "";
+	}
+	let toggleAutosave = function (btn, saveBtn) {
+		autosave = !autosave;
+		localStorage.setItem("autosave", autosave);
+		if (autosave) {
+			btn.className = "on";
+			btn.setAttribute("title", "Autosave ON");
+			saveBtn.style.display = "none";
 		}
-		let selectedNow = undefined;
-		let clickSeq = function() {
-			window.getSelection().removeAllRanges();
-			if (!selectSeq) {
-				selectSeq = true;
-				selectedNow = this;
-				for (let rank of ranks) {
-					if (rank != this) rank.className = "rank selectable";
-					else rank.className = "rank selected";
+		else {
+			btn.className = "";
+			btn.setAttribute("title", "Autosave OFF");
+			saveBtn.style.display = "";
+		}
+	}
+	let shareList = function () {
+		saveCode = order.map(el => toCode[el]).join("");
+		try { history.replaceState(null, null, ".?" + saveCode) } catch {}
+	}
+	function createButton(id, tooltip, action, ...args) {
+		var btn = document.createElement("PRETTY-BUTTON");
+		btn.id = id;
+		btn.setAttribute("title", tooltip);
+		btn.onclick = args ? (() => {action(...args.map(el => btns[el]))}) : action;
+		document.getElementsByTagName("button-container")[0].appendChild(btn);
+		return btn;
+	}
+	function showTable() {
+		initTable();
+		createRows();
+		createDOMs();
+		document.body.appendChild(table);
+	}
+	var table = document.createElement("TABLE");
+	function init() {
+		defaultOrder();
+		showTable();
+		btns.save = createButton("save", "Save", save, "as");
+		btns.as = createButton("autosave", autosave ? "Autosave ON" : "Autosave OFF", toggleAutosave, "as", "save");
+		btns.as.className = autosave ? "on" : "";
+		btns.share = createButton("share", "Get share link\r\nin the title bar", shareList);
+		if (autosave) btns.save.style.display = "none";
+		else if (sharedLink) btns.as.style.display = "none";
+		document.getElementsByTagName("button-container")[0].appendChild(document.createElement("HINT")).id = "second-hint";
+		{
+			let selectSeq = false;
+			let ranks = document.getElementsByClassName("rank");
+			let indexOf = function(arr, elem) {
+				for (var idx in arr) {
+					if (arr[idx] == elem) return parseInt(idx);
+				}
+				return -1;
+			}
+			let selectedNow = undefined;
+			let clickSeq = function() {
+				window.getSelection().removeAllRanges();
+				if (!selectSeq) {
+					selectSeq = true;
+					selectedNow = this;
+					for (let rank of ranks) {
+						if (rank != this) rank.className = "rank selectable";
+						else rank.className = "rank selected";
+					}
+				}
+				else {
+					for (let rank of ranks) rank.className = "rank";
+					selectSeq = false;
+					if (selectedNow === this) return;
+					let no = indexOf(ranks, selectedNow);
+					let ns = indexOf(ranks, this);
+					let no_ = no == Math.min(no, ns);
+					selectedNow = undefined;
+					let step = x => (x + 1);
+					if (!no_) step = x => (x - 1);
+					let aux = order[no];
+					let idx = no;
+					for (idx = no; idx != ns; idx = step(idx)) {
+						appendCells(idx, order[step(idx)]);
+						order[idx] = order[step(idx)];
+					}
+					appendCells(ns, aux);
+					order[ns] = aux;
+					if (autosave) save();
+					else try { history.replaceState(null, null, ".") } catch {}
 				}
 			}
-			else {
-				for (let rank of ranks) rank.className = "rank";
-				selectSeq = false;
-				if (selectedNow === this) return;
-				let no = indexOf(ranks, selectedNow);
-				let ns = indexOf(ranks, this);
-				let no_ = no == Math.min(no, ns);
-				selectedNow = undefined;
-				let step = x => (x + 1);
-				if (!no_) step = x => (x - 1);
-				let aux = order[no];
-				let idx = no;
-				for (idx = no; idx != ns; idx = step(idx)) {
-					appendCells(idx, order[step(idx)]);
-					order[idx] = order[step(idx)];
-				}
-				appendCells(ns, aux);
-				order[ns] = aux;
-				localStorage.setItem("escSort", JSON.stringify(order));
-				localStorage.setItem("escSortYr", yr);
+			for (let rank of ranks) {
+				rank.onclick = clickSeq;
 			}
-		}
-		for (let rank of ranks) {
-			rank.onclick = clickSeq;
 		}
 	}
 }
