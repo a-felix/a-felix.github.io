@@ -178,7 +178,7 @@ function showEntries() {
 		}
 	}
 	let backToYrSel = function () {
-		document.location.href += "/../";
+		document.location.href += "../";
 	}
 	let shareList = function () {
 		saveCode = order.map(el => toCode[el]).join("");
