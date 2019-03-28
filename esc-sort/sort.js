@@ -178,6 +178,8 @@ function showEntries() {
 		}
 	}
 	let backToYrSel = function () {
+		try { history.replaceState(null, null, ".") }
+		catch {}
 		document.location.href += "../";
 	}
 	let shareList = function () {
