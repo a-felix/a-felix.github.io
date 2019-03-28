@@ -144,16 +144,29 @@ function showEntries() {
 	}
 }
 {
+	let changed = false;
+	let unsavedPrompt = function(e) {
+		console.log(e);
+		return "You have unsaved changes.\r\nDo you want to leave anyway?";
+	}
 	let btns = {};
 	let save = function (autosaveBtn) {
 		localStorage.setItem("escSort" + yr, saveCode = order.map(el => toCode[el]).join(""));
+		changed = false;
+		document.body.onbeforeunload = undefined;
 		try { history.replaceState(null, null, ".") } catch {}
-		if (!autosave) autosaveBtn.style.display = "";
+	}
+	let savePrompt = function (autosaveBtn) {
+		if (changed && !confirm("Confirm save?")) return;
+		save(autosaveBtn);
+		autosaveBtn.style.display = "";
 	}
 	let toggleAutosave = function (btn, saveBtn) {
+		if (!autosave && changed && !confirm("Confirm changes and enable autosaving?")) return;
 		autosave = !autosave;
 		localStorage.setItem("escSortAutosave", autosave);
 		if (autosave) {
+			if (changed) save(btn);
 			btn.className = "on";
 			btn.setAttribute("title", "Autosave ON");
 			saveBtn.style.display = "none";
@@ -163,6 +176,9 @@ function showEntries() {
 			btn.setAttribute("title", "Autosave OFF");
 			saveBtn.style.display = "";
 		}
+	}
+	let backToYrSel = function () {
+		document.location.href += "/../";
 	}
 	let shareList = function () {
 		saveCode = order.map(el => toCode[el]).join("");
@@ -186,9 +202,10 @@ function showEntries() {
 	function init() {
 		defaultOrder();
 		showTable();
-		btns.save = createButton("save", "Save", save, "as");
+		btns.save = createButton("save", "Save", savePrompt, "as");
 		btns.as = createButton("autosave", autosave ? "Autosave ON" : "Autosave OFF", toggleAutosave, "as", "save");
 		btns.as.className = autosave ? "on" : "";
+		createButton("back", "Back to year selection", backToYrSel);
 		btns.share = createButton("share", "Get share link\r\nin the title bar", shareList);
 		if (autosave) btns.save.style.display = "none";
 		else if (sharedLink) btns.as.style.display = "none";
@@ -232,7 +249,11 @@ function showEntries() {
 					appendCells(ns, aux);
 					order[ns] = aux;
 					if (autosave) save();
-					else try { history.replaceState(null, null, ".") } catch {}
+					else {
+						changed = true;
+						document.body.onbeforeunload = unsavedPrompt;
+						try { history.replaceState(null, null, ".") } catch {}
+					}
 				}
 			}
 			for (let rank of ranks) {

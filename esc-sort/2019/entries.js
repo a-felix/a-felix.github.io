@@ -14,7 +14,7 @@ window.defineEntries = function (addEntry) {
 	addEntry("ee", 1, "Estonia", "Victor Crone", "Storm");
 	addEntry("fi", 1, "Finland", "Darude feat. Sebastian Rejman", "Look Away");
 	addEntry("fr", 0, "France", "Bilal Hassani", "Roi", "King");
-	addEntry("ge", 1, "Georgia", "Oto Nemsadze", "Sul tsin iare", "\"სულ წინ იარე\"; Go ahead");
+	addEntry("ge", 1, "Georgia", "Oto Nemsadze", "Keep On Going");
 	addEntry("de", 0, "Germany", "S!sters", "Sister");
 	addEntry("gr", 1, "Greece", "Katerine Duska", "Better Love");
 	addEntry("hu", 1, "Hungary", "Joci Pápai", "Az én apám", "My father");
