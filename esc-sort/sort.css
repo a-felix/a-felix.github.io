@@ -199,7 +199,7 @@ tr.show21:nth-of-type(-n+10), tr.show22:nth-of-type(-n+10), .show20 {
 tr:first-child {
 	user-select: none;
 }
-tr.show1 > td:nth-child(2):before, tr.show-1 > td:nth-child(2):before, tr.show2 > td:nth-child(2):before, tr.show-2 > td:nth-child(2):before, tr.show0 > td:nth-child(2):before {
+tr.show1 > td:nth-child(2):before, tr.show-1 > td:nth-child(2):before, tr.show2 > td:nth-child(2):before, tr.show-2 > td:nth-child(2):before, tr.show0 > td:nth-child(2):before, tr.show-14 > td:nth-child(2):before {
 	display: inline-block;
 	text-align: center;
 	border-radius: 0.3em;
@@ -224,6 +224,10 @@ tr.show2 > td:nth-child(2):before, tr.show-2 > td:nth-child(2):before {
 }
 tr.show0 > td:nth-child(2):before {
 	content: "F";
+	background: #5d965c;
+}
+tr.show-14 > td:nth-child(2):before {
+	content: "14";
 	background: #5d965c;
 }
 tr.show-1 > td:nth-child(2):before, tr.show-2 > td:nth-child(2):before {
