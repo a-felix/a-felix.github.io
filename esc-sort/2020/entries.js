@@ -20,7 +20,7 @@ window.defineEntries = function (addEntry) {
 	addEntry("gr", 2, "Greece", "Stefania", "SUPERG!RL");
 	addEntry("is", 2, "Iceland", "Daði & Gagnamagnið", "Think About Things");
 	addEntry("ie", 1, "Ireland", "Lesley Roy", "Story of My Life");
-	addEntry("il", 1, "Israel", "Eden Alene", "Feker libi", "My beloved");
+	addEntry("il", 1, "Israel", "Eden Alene", "Feker libi", "\"ፍቅር ליבי\"; My beloved");
 	addEntry("it", 0, "Italy", "Diodato", "Fai rumore", "You make noise");
 	addEntry("lv", 2, "Latvia", "Samanta Tīna", "Still Breathing");
 	addEntry("lt", 1, "Lithuania", "The Roop", "On Fire");
@@ -39,6 +39,6 @@ window.defineEntries = function (addEntry) {
 	addEntry("es", 0, "Spain", "Blas Cantó", "Universo", "Universe");
 	addEntry("se", 1, "Sweden", "The Mamas", "Move");
 	addEntry("ch", 2, "Switzerland", "Gjon's Tears", "Répondez-moi", "Answer me");
-	addEntry("ua", 1, "Ukraine", "Go_A", "Solovey", "Соловей", "Nightingale");
+	addEntry("ua", 1, "Ukraine", "Go_A", "Solovey", "\"Соловей\"; Nightingale");
 	addEntry("gb", 0, "United Kingdom", "James Newman", "My Last Breath");
 }
