@@ -14,7 +14,7 @@ window.defineEntries = function (addEntry) {
 	addEntry("dk", 2, "Denmark", "Ben & Tan", "Yes");
 	addEntry("ee", 2, "Estonia", "Uku Suviste", "What Love Is");
 	addEntry("fi", 2, "Finland", "Aksel", "Looking Back");
-	addEntry("fr", 0, "France", "Tom Leeb", "The Best in Me");
+	addEntry("fr", 0, "France", "Tom Leeb", "Mon alliée (The Best in Me)", "My ally");
 	addEntry("ge", 2, "Georgia", "Tornike Kipiani", "Take Me as I Am");
 	addEntry("de", 0, "Germany", "Ben Dolic", "Violent Thing");
 	addEntry("gr", 2, "Greece", "Stefania", "SUPERG!RL");
