@@ -227,7 +227,7 @@ function showEntries() {
 			secondHint.id = "second-hint";
 			document.getElementsByTagName("button-container")[0].appendChild(secondHint);
 			secondHint.addEventListener("click", e => {
-				window.open("/LICENSE", "_blank");
+				window.open("../../apache-license-content.html", "_blank");
 			});
 		}
 		{

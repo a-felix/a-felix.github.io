@@ -121,7 +121,7 @@ button-container:hover {
 }
 @keyframes hintopb {
 	0% { poiner-events: none; opacity: 0 }
-	100% { pointer-events: auto; opacity: 1 }
+	100% { pointer-events: auto; opacity: 1; cursor: pointer; }
 }
 hint {
 	display: inline-block;
@@ -201,7 +201,6 @@ pretty-button:active {
 #save {
 	background-image: url(icons/save.svg);
 	background-position: 52% 51%;
-	--background-size: 50%;
 }
 button-container:hover pretty-button {
 	right: 0;
@@ -209,24 +208,21 @@ button-container:hover pretty-button {
 #autosave {
 	background-image: url(icons/autosave-off.svg);
 	background-position: 52% 52%;
-	--background-size: 55%;
 }
 #autosave.on {
 	background-image: url(icons/autosave-on.svg);
 }
 #back {
 	background-image: url(icons/back.svg);
-	--background-size: 50%;
+	background-position: 51% 51%;
 }
 #share {
 	background-image: url(icons/link.svg);
-	background-position: 50.5% 51%;
-	--background-size: 55%;
+	background-position: 51% 51.5%;
 }
 #theme {
 	background-image: url(icons/theme.svg);
 	background-position: 50.5% 51%;
-	--background-size: 55%;
 }
 .dark-theme #save { background-image: url(icons/save.svg#dark); }
 .dark-theme #autosave { background-image: url(icons/autosave-off.svg#dark); }
