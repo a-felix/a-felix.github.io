@@ -1,5 +1,9 @@
-﻿var order = [], dom = {}, noOfEntries = 0, entryInfo = {}, tableRows = [], saveCode = null, sharedLink = false, autosave = JSON.parse(localStorage.getItem("escSortAutosave")), yr;
+﻿var order = [], dom = {}, noOfEntries = 0, entryInfo = {}, tableRows = [], saveCode = null, sharedLink = false, autosave = JSON.parse(localStorage.getItem("escSortAutosave")), theme = localStorage.getItem("escSortTheme"), yr;
 if (autosave === null) autosave = true;
+switch (theme) {
+	case "dark": theme = "dark"; document.documentElement.classList.add("dark-theme"); break;
+	default: theme = "light";
+}
 var toCode = { at: "A", be: "B", cz: "C", de: "D", es: "E", fr: "F", gb: "G", hu: "H", it: "I", is: "J", kz: "K", lu: "L", mt: "M", no: "N", au: "O", pt: "P", mk: "Q", ro: "R", se: "S", tr: "T", ua: "U", si: "V", wa: "W", hr: "X", yu: "Y", az: "Z", am: "a", bg: "b", cy: "c", dk: "d", ee: "e", fi: "f", gr: "g", ch: "h", il: "i", ie: "j", ks: "k", lv: "l", me: "m", nl: "n", md: "o", pl: "p", al: "q", ru: "r", rs: "s", lt: "t", us: "u", sk: "v", mc: "w", ah: "x", by: "y", ba: "z", ma: "0", li: "1", ad: "2", lb: "3", ps: "4", sm: "5", ge: "6", ts: "7", fo: "8", aa: "9", cs: "+", ab: "-", kk: "*", eh: "/", ca: "^", os: "_", ax: "@", ce: "=" };
 var fromCode = {};
 for (let idx in toCode) { fromCode[toCode[idx]] = idx }
@@ -97,7 +101,7 @@ function createDOMs() {
 	for (var code of order) {
 		let e = entryInfo[code];
 		let flag = document.createElement("IMG");
-		flag.src = "../flags/" + code + ".png";
+		flag.src = "../../flags/" + code + ".png";
 		flag.className = "flag";
 		let ctyCell = document.createElement("TD");
 		ctyCell.appendChild(flag);
@@ -177,10 +181,16 @@ function showEntries() {
 			saveBtn.style.display = "";
 		}
 	}
+	let toggleTheme = function (btn, themeBtn) {
+		theme = (theme == "light") ? "dark" : "light";
+		localStorage.setItem("escSortTheme", theme);
+		if (theme == "light") document.documentElement.classList.remove("dark-theme");
+		else document.documentElement.classList.add("dark-theme");
+	}
 	let backToYrSel = function () {
 		try { history.replaceState(null, null, ".") }
 		catch {}
-		document.location.href += "../";
+		finally { document.location.href += "../../" }
 	}
 	let shareList = function () {
 		saveCode = order.map(el => toCode[el]).join("");
@@ -209,9 +219,17 @@ function showEntries() {
 		btns.as.className = autosave ? "on" : "";
 		createButton("back", "Back to year selection", backToYrSel);
 		btns.share = createButton("share", "Get share link\r\nin the title bar", shareList);
+		btns.theme = createButton("theme", "Toggle light/dark mode", toggleTheme);
 		if (autosave) btns.save.style.display = "none";
 		else if (sharedLink) btns.as.style.display = "none";
-		document.getElementsByTagName("button-container")[0].appendChild(document.createElement("HINT")).id = "second-hint";
+		{
+			let secondHint = document.createElement("HINT");
+			secondHint.id = "second-hint";
+			document.getElementsByTagName("button-container")[0].appendChild(secondHint);
+			secondHint.addEventListener("click", e => {
+				window.open("/LICENSE", "_blank");
+			});
+		}
 		{
 			let selectSeq = false;
 			let ranks = document.getElementsByClassName("rank");

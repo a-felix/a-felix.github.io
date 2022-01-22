@@ -1,9 +1,16 @@
 * { -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
+.dark-theme {
+	color-scheme: dark;
+	scrollbar-color: dark;
+}
 body {
 	font-family: "Arial", "Helvetica", sans-serif;
 	font-size: 10.5pt;
 	margin: 1em;
 	padding: 0;
+}
+.dark-theme body {
+	background-color: #222;
 }
 table {
 	font-size: inherit;
@@ -13,14 +20,24 @@ table {
 	border: 1px solid #a2a9b1;
 	border-collapse: collapse;
 }
+.dark-theme table {
+	color: #fff;
+	background-color: #333;
+}
 table > tr > th, table > tr > td, table > * > tr > th, table > * > tr > td {
 	border: 1px solid #a2a9b1;
 	padding: 0.3em 0.4em 0.2em;
 	line-height: 1.4;
 }
+.dark-theme table > tr > th, .dark-theme table > tr > td, .dark-theme table > * > tr > th, .dark-theme table > * > tr > td {
+	border: 1px solid #444;
+}
 table > tr > th, table > * > tr > th {
 	background-color: #eaecf0;
 	text-align: center;
+}
+.dark-theme table > tr > th, .dark-theme table > * > tr > th {
+	background-color: #444;
 }
 .TBD {
 	background: #DDF;
@@ -34,6 +51,9 @@ table > tr > th, table > * > tr > th {
 }
 .rank.selectable:active {
 	background: #EF0;
+}
+.dark-theme .rank.selectable:hover, .dark-theme .rank.selectable:active {
+	color: #000;
 }
 .rank.selected {
 	color: #FFF;
@@ -100,8 +120,8 @@ button-container:hover {
 	}
 }
 @keyframes hintopb {
-	0% { opacity: 0 }
-	100% { opacity: 1 }
+	0% { poiner-events: none; opacity: 0 }
+	100% { pointer-events: auto; opacity: 1 }
 }
 hint {
 	display: inline-block;
@@ -116,6 +136,11 @@ hint {
 	text-align: right;
 	box-shadow: 0 0 0.35em 0 rgba(255,255,255,0.66);
     background: rgba(255,255,255,0.66);
+}
+.dark-theme hint {
+	color: #999;
+	background: rgba(34, 34, 34, 0.66);
+	box-shadow: 0 0 0.35em 0 rgba(34, 34, 34, 0.66);
 }
 #first-hint {
 	display: inline-block;
@@ -132,7 +157,7 @@ hint {
 	animation-fill-mode: forwards;
 }
 #second-hint:after {
-	content: "Icons by Google.";
+	content: "Icons made by Google or derived under Apache 2.0. Click for more";
 }
 button-container:hover + #first:after {
 	opacity: 0;
@@ -163,31 +188,52 @@ pretty-button:active {
 	background-color: #D3D3D3;
 	box-shadow: 0.35em 0.35em 0.35em -0.07em rgba(0,0,0,0.45);
 }
+.dark-theme pretty-button {
+	background-color: #333;
+	border-color: #444;
+}
+.dark-theme pretty-button:hover {
+	background-color: #444;
+}
+.dark-theme pretty-button:active {
+	background-color: #222;
+}
 #save {
-	background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/PjxzdmcgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0NTkiIGhlaWdodD0iNDU5Ij48cGF0aCBmaWxsPSIjNjY2IiBkPSJNMzU3IDBINTFDMjIuOTUgMCAwIDIyLjk1IDAgNTF2MzU3YzAgMjguMDUgMjIuOTUgNTEgNTEgNTFoMzU3YzI4LjA1IDAgNTEtMjIuOTUgNTEtNTFWMTAyTDM1NyAwek0yMjkuNSA0MDhjLTQzLjM1IDAtNzYuNS0zMy4xNS03Ni41LTc2LjVzMzMuMTUtNzYuNSA3Ni41LTc2LjVjNDMuMzUgMCA3Ni41IDMzLjE1IDc2LjUgNzYuNVMyNzIuODUgNDA4IDIyOS41IDQwOHogTTMwNiAxNTNINTFWNTFoMjU1VjE1M3oiLz48L3N2Zz4=);
+	background-image: url(icons/save.svg);
 	background-position: 52% 51%;
-	background-size: 50%;
+	--background-size: 50%;
 }
 button-container:hover pretty-button {
 	right: 0;
 }
 #autosave {
-	background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/PjxzdmcgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0NTMiIGhlaWdodD0iNDUzIj48cGF0aCBmaWxsPSIjNjY2IiBkPSJNMjc3LjUgMjIuNUwyNzcuNSAxNzUuNUwzMzMuNiAxMTkuNEMzNjEuNjUgMTQ0LjkgMzc5LjUgMTgzLjE1IDM3OS41IDIyNi41QzM3OS41IDI1MC44IDM3My42NyAyNzMuNzMgMzYzLjQwMiAyOTQuMTZMNDAxLjU4IDMzMi4zNEM0MTkuODggMzAyLjEgNDMwLjUgMjY2LjggNDMwLjUgMjI5LjA1QzQzMC41IDE3Mi45NSA0MDcuNTUgMTIxLjk1IDM2OS4zIDg2LjI1TDQzMC41IDIyLjVMMjc3LjUgMjIuNXpNMTc1LjUgMzAuMTVDMTU2LjU1IDM1LjE3IDEzOC41NyA0Mi44NiAxMjIuMDUgNTIuODFMMTU4LjMgODkuMDZDMTYzLjg2IDg2LjExIDE2OS42IDgzLjQ2IDE3NS41IDgxLjE1TDE3NS41IDMwLjE1ek0zNC42NSAzNC42NUwwLjAzIDY5LjI3TDUyLjM4IDEyMS42MkMzMy40OSAxNTIuMjEgMjIuNSAxODguMDggMjIuNSAyMjYuNUMyMi41IDI4Mi42IDQ1LjQ1IDMzMy42IDgzLjcgMzY5LjNMMjIuNSA0MzAuNUwxNzUuNSA0MzAuNUwxNzUuNSAyNzcuNUwxMTkuNCAzMzMuNkM5MS4zNSAzMDguMSA3My41IDI2OS44NSA3My41IDIyNi41QzczLjUgMjAyLjIgNzkuMzQgMTc5LjI3IDg5LjYxIDE1OC44NUwyOTQuNjkgMzYzLjkzQzI4OS4xMyAzNjYuODkgMjgzLjQgMzY5LjU0IDI3Ny41IDM3MS44NUwyNzcuNSA0MjUuNEMyOTcuMDYgNDIwLjIyIDMxNS41NyA0MTIuMTggMzMyLjUyIDQwMS43NkwzODMuNzMgNDUyLjk3TDQxOC4zNSA0MTguMzVMMzcxLjE4IDM3MS4xOEwzMzQuNDEgMzM0LjQxTDExOC41OSAxMTguNTlMODMuMDkgODMuMDlMMzQuNjUgMzQuNjV6Ii8+PC9zdmc+);
+	background-image: url(icons/autosave-off.svg);
 	background-position: 52% 52%;
-	background-size: 55%;
+	--background-size: 55%;
 }
 #autosave.on {
-	background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/PjxzdmcgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0NTMiIGhlaWdodD0iNDUzIj48cGF0aCBmaWxsPSIjNjY2IiBkPSJtMjIuNSAyMjYuNWMwIDU2LjEgMjIuOTUgMTA3LjEgNjEuMiAxNDIuOGwtNjEuMiA2MS4yaDE1M3YtMTUzbC01Ni4xIDU2LjFDOTEuMzUgMzA4LjEgNzMuNSAyNjkuODUgNzMuNSAyMjYuNWMwLTY2LjMgNDMuMzUtMTIyLjQgMTAyLTE0NS4zNXYtNTFjLTg2LjcgMjIuOTUtMTUzIDEwMi0xNTMgMTk2LjM1em00MDgtMjA0aC0xNTN2MTUzbDU2LjEtNTYuMWMyOC4wNSAyNS41IDQ1LjkgNjMuNzUgNDUuOSAxMDcuMSAwIDY2LjMtNDMuMzUgMTIyLjQtMTAyIDE0NS4zNXY1My41NWM4Ni43LTIyLjk1IDE1My0xMDIgMTUzLTE5Ni4zNTEgMC01Ni4xLTIyLjk1LTEwNy4xLTYxLjItMTQyLjh6Ii8+PC9zdmc+);
+	background-image: url(icons/autosave-on.svg);
 }
 #back {
-	background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/PjxzdmcgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDgiIGhlaWdodD0iNDA4Ij48cGF0aCBmaWxsPSIjNjY2IiBkPSJNNDA4IDE3OC41SDk2LjlMMjM5LjcgMzUuN0wyMDQgMEwwIDIwNGwyMDQgMjA0bDM1LjctMzUuN0w5Ni45IDIyOS41SDQwOFYxNzguNXoiLz48L3N2Zz4=);
-	background-size: 50%;
+	background-image: url(icons/back.svg);
+	--background-size: 50%;
 }
 #share {
-	background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/PjxzdmcgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MTAiIGhlaWdodD0iNTEwIj48cGF0aCBmaWxsPSIjNjY2IiBkPSJNMTUzIDI4MC41aDIwNHYtNTFIMTUzVjI4MC41eiBNNDguNDUgMjU1YzAtNTguNjUgNDUuOS0xMDQuNTUgMTA0LjU1LTEwNC41NWg3Ni41VjEwMkgxNTNDNjguODUgMTAyIDAgMTcwLjg1IDAgMjU1YzAgODQuMTUgNjguODUgMTUzIDE1MyAxNTNoNzYuNXYtNDguNDVIMTUzQzk0LjM1IDM1OS41NSA0OC40NSAzMTMuNjUgNDguNDUgMjU1ek0zNTcgMTAyaC03Ni41djQ4LjQ1SDM1N2M1OC42NSAwIDEwNC41NSA0NS45IDEwNC41NSAxMDQuNTVjMCA1OC42NS00NS44OTkgMTA0LjU1LTEwNC41NSAxMDQuNTVoLTc2LjVWNDA4SDM1N2M4NC4xNSAwIDE1My02OC44NSAxNTMtMTUzQzUxMCAxNzAuODUgNDQxLjE1IDEwMiAzNTcgMTAyeiIvPjwvc3ZnPg==);
+	background-image: url(icons/link.svg);
 	background-position: 50.5% 51%;
-	background-size: 55%;
+	--background-size: 55%;
 }
+#theme {
+	background-image: url(icons/theme.svg);
+	background-position: 50.5% 51%;
+	--background-size: 55%;
+}
+.dark-theme #save { background-image: url(icons/save.svg#dark); }
+.dark-theme #autosave { background-image: url(icons/autosave-off.svg#dark); }
+.dark-theme #autosave.on { background-image: url(icons/autosave-on.svg#dark); }
+.dark-theme #back { background-image: url(icons/back.svg#dark); }
+.dark-theme #share { background-image: url(icons/link.svg#dark); }
+.dark-theme #theme { background-image: url(icons/theme.svg#dark); }
 #showhide {
 	/* background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/PjxzdmcgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1NjEiIGhlaWdodD0iNTYxIj48cGF0aCBmaWxsPSIjNjY2IiBkPSJNMjgwLjUgODkuMjVDMTUzIDg5LjI1IDQzLjM1IDE2OC4zIDAgMjgwLjVjNDMuMzUgMTEyLjIgMTUzIDE5MS4yNSAyODAuNSAxOTEuMjVTNTE3LjY1IDM5Mi43IDU2MSAyODAuNUM1MTcuNjUgMTY4LjMgNDA4IDg5LjI1IDI4MC41IDg5LjI1ek0yODAuNSA0MDhDMjA5LjEgNDA4IDE1MyAzNTEuOSAxNTMgMjgwLjVjMC03MS40IDU2LjEtMTI3LjUgMTI3LjUtMTI3LjVjNzEuNCAwIDEyNy41IDU2LjEgMTI3LjUgMTI3LjVDNDA4IDM1MS45IDM1MS45IDQwOCAyODAuNSA0MDh6TTI4MC41IDIwNGMtNDMuMzUgMC03Ni41IDMzLjE1LTc2LjUgNzYuNWMwIDQzLjM1IDMzLjE1IDc2LjUgNzYuNSA3Ni41YzQzLjM1IDAgNzYuNS0zMy4xNSA3Ni41LTc2LjVDMzU3IDIzNy4xNSAzMjMuODUgMjA0IDI4MC41IDIwNHoiLz48L3N2Zz4=); */
 	/* background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/PjxzdmcgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1NjEiIGhlaWdodD0iNTYxIj48cGF0aCBmaWxsPSIjNjY2IiBkPSJNNjIuMzIgNjIuMzJMMTguNjkgMTA1Ljk2TDc5LjAxIDE2Ni4yOEM0NC4zOCAxOTcuMzYgMTcuMDUgMjM2LjM2IDAgMjgwLjVDNDMuMzUgMzkyLjcgMTUzIDQ3MS43NSAyODAuNSA0NzEuNzVDMzExLjkxIDQ3MS43NSAzNDIuMjQgNDY2Ljk0IDM3MC43NiA0NTguMDNMNDU1LjA0IDU0Mi4zMUw0OTguNjggNDk4LjY4TDQzMS40MiA0MzEuNDJMMzcxLjAzIDM3MS4wM0wzMzUuMDEgMzM1LjAxTDIyNS45OSAyMjUuOTlMMTg5Ljk3IDE4OS45N0wxMjkuNTggMTI5LjU4TDYyLjMyIDYyLjMyek0yODAuNSA4OS4yNUMyNDkuMDkgODkuMjUgMjE4Ljc2IDk0LjA2IDE5MC4yNCAxMDIuOTdMMjQ1LjA4IDE1Ny44MUMyNTYuMjkgMTU0LjY4IDI2OC4xNyAxNTMgMjgwLjUgMTUzQzM1MS45IDE1MyA0MDggMjA5LjEgNDA4IDI4MC41QzQwOCAyOTIuODMgNDA2LjMyIDMwNC43MSA0MDMuMTkgMzE1LjkyTDQ4MiAzOTQuNzNDNTE2LjYzIDM2My42NSA1NDMuOTUgMzI0LjY0IDU2MSAyODAuNUM1MTcuNjUgMTY4LjMgNDA4IDg5LjI1IDI4MC41IDg5LjI1ek0yOTIuMDkgMjA0LjgyTDM1Ni4xOCAyNjguOTFDMzUxLjQgMjM1LjE1IDMyNS44NSAyMDkuNiAyOTIuMDkgMjA0Ljgyek0xNTcuODEgMjQ1LjA4TDIwNC44MiAyOTIuMDlDMjA5LjYgMzI1Ljg1IDIzNS4xNSAzNTEuNCAyNjguOTEgMzU2LjE4TDMxNS45MiA0MDMuMTlDMzA0LjcxIDQwNi4zMiAyOTIuODMgNDA4IDI4MC41IDQwOEMyMDkuMSA0MDggMTUzIDM1MS45IDE1MyAyODAuNUMxNTMgMjY4LjE3IDE1NC42OCAyNTYuMjkgMTU3LjgxIDI0NS4wOHoiLz48L3N2Zz4=); */
@@ -199,7 +245,7 @@ tr.show21:nth-of-type(-n+10), tr.show22:nth-of-type(-n+10), .show20 {
 tr:first-child {
 	user-select: none;
 }
-tr.show1 > td:nth-child(2):before, tr.show-1 > td:nth-child(2):before, tr.show2 > td:nth-child(2):before, tr.show-2 > td:nth-child(2):before, tr.show0 > td:nth-child(2):before, tr.show-14 > td:nth-child(2):before {
+tr.show1 > td:nth-child(2):before, tr.show-1 > td:nth-child(2):before, tr.show2 > td:nth-child(2):before, tr.show-2 > td:nth-child(2):before, tr.show0 > td:nth-child(2):before, tr.show-14 > td:nth-child(2):before, tr.show-23 > td:nth-child(2):before {
 	display: inline-block;
 	text-align: center;
 	border-radius: 0.3em;
@@ -230,6 +276,10 @@ tr.show-14 > td:nth-child(2):before {
 	content: "14";
 	background: #5d965c;
 }
+tr.show-23 > td:nth-child(2):before {
+	content: "23";
+	background: #5d965c;
+}
 tr.show-1 > td:nth-child(2):before, tr.show-2 > td:nth-child(2):before {
 	background: #5d965c;
 }
@@ -241,3 +291,4 @@ tr, tr0, tr1, tr2 {
     vertical-align: inherit;
     border-color: inherit;
 }
+/* .curent { background: #005588; } */

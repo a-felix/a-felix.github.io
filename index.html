@@ -3,12 +3,22 @@
 	<head>
 		<title>Felix's World, IDK</title>
 		<meta name="viewport" content="width=device-width, initial-scale=.9, minimum-scale=.9, maximum-scale=.9, user-scalable=no"/>
+		<script>
+			if (localStorage.getItem("escSortTheme") == "dark") document.documentElement.classList.add("dark-theme");
+		</script>
 		<style>
 			* { -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
+			.dark-theme {
+				color-scheme: dark;
+				scrollbar-color: dark;
+			}
 			body {
 				text-align: center;
 				font-family: Arial, Helvetica, sans-serif;
 				font-size: 2em;
+			}
+			.dark-theme body {
+				background-color: #222;
 			}
 			.link {
 				text-decoration: none;
@@ -23,6 +33,16 @@
 			}
 			.link:active {
 				background: #CCE;
+			}
+			.dark-theme .link {
+				background: #333;
+				color: #FFF;
+			}
+			.dark-theme .link:hover {
+				background: #444;
+			}
+			.dark-theme .link:active {
+				background: #222;
 			}
 		</style>
 	</head>
