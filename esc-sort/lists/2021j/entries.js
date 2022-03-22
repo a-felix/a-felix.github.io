@@ -11,7 +11,7 @@ window.defineEntries = function (addEntry) {
 	addEntry("am", 0, "Armenia", "Maléna", "Qami Qami", "\"Քամի Քամի\"; Wind, wind");
 	addEntry("kz", 0, "Kazakhstan", "Alinur Khamzin & Beknur Zhanibekuly", "Ertegı älemı", "\"Ертегі әлемі\"; Fairy world");
 	addEntry("al", 0, "Albania", "Anna Gjebrea", "Stand by You");
-	addEntry("ua", 0, "Ukraine", "Olena Usenko", "Vazhil", "\"Важіль\"; Lever");
+	addEntry("ua", 0, "Ukraine", "Olena Usenko", "Vazhil'", "\"Важіль\"; Lever");
 	addEntry("fr", 0, "France", "Enzo", "Tic Tac");
 	addEntry("az", 0, "Azerbaijan", "Sona Azizova", "One of Those Days");
 	addEntry("nl", 0, "Netherlands", "Ayana", "Mata sugu aō ne", "\"またすぐ会おうね\"; See you soon");

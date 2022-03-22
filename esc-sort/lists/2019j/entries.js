@@ -6,10 +6,10 @@ window.defineEntries = function (addEntry) {
 	addEntry("mk", 0, "North Macedonia", "Mila Moskov", "Fire", "");
 	addEntry("es", 0, "Spain", "Melani García", "Marte", "Mars");
 	addEntry("ge", 0, "Georgia", "Giorgi Rostiashvili", "We Need Love", "");
-	addEntry("by", 0, "Belarus", "Liza Misnikova", "Пепельный", "\"Pepelny\"; Ashen");
+	addEntry("by", 0, "Belarus", "Liza Misnikova", "Pepelny (Ashen)", "\"Пепельный (Ashen)\"; Ashen (Ashen)");
 	addEntry("mt", 0, "Malta", "Eliana Gomez Blanco", "We Are More", "");
 	addEntry("wa", 0, "Wales", "Erin Mai", "Calon yn Curo", "Heart beating");
-	addEntry("kz", 0, "Kazakhstan", "Yerzhan Maxim", "Арманыңнан қалма", "\"Armanyńnan qalma\"; Don't waste your dreams");
+	addEntry("kz", 0, "Kazakhstan", "Yerzhan Maxim", "Armanyńnan qalma", "\"Арманыңнан қалма\"; Don't waste your dreams");
 	addEntry("pl", 0, "Poland", "Viki Gabor", "Superhero", "");
 	addEntry("ie", 0, "Ireland", "Anna Kearney", "Banshee", "");
 	addEntry("ua", 0, "Ukraine", "Sophia Ivanko", "The Spirit of Music", "");
