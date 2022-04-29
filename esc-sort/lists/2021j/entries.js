@@ -1,5 +1,6 @@
 window.defineEntries = function (addEntry) {
 	yr = "2021j";
+	codeset = "eu";
 	addEntry("de", 0, "Germany", "Pauline", "Imagine Us");
 	addEntry("ge", 0, "Georgia", "Niko Kajaia", "Let's Count the Smiles");
 	addEntry("pl", 0, "Poland", "Sara James", "Somebody");

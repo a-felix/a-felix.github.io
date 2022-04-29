@@ -1,5 +1,6 @@
 window.defineEntries = function (addEntry) {
 	yr = "2020j";
+	codeset = "eu";
 	addEntry("de", 0, "Germany", "Susan", "Stronger with You");
 	addEntry("kz", 0, "Kazakhstan", "Karakat Bashanova", "Mäñgılıkke", "\"Мәңгілікке\"; Forever");
 	addEntry("nl", 0, "Netherlands", "Unity", "Best Friends");

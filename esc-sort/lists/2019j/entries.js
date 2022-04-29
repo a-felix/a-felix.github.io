@@ -1,5 +1,6 @@
 window.defineEntries = function (addEntry) {
 	yr = "2019j";
+	codeset = "eu";
 	addEntry("au", 0, "Australia", "Jordan Anthony", "We Will Rise", "");
 	addEntry("fr", 0, "France", "Carla", "Bim bam toi", "Bim bam you");
 	addEntry("ru", 0, "Russia", "Tatyana Mezhentseva & Denberel Oorzhak", "A Time for Us", "");

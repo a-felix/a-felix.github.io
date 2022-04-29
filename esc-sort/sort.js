@@ -1,14 +1,22 @@
-﻿var order = [], dom = {}, noOfEntries = 0, entryInfo = {}, tableRows = [], saveCode = null, sharedLink = false, autosave = JSON.parse(localStorage.getItem("escSortAutosave")), theme = localStorage.getItem("escSortTheme"), yr;
+﻿var order = [], dom = {}, noOfEntries = 0, entryInfo = {}, tableRows = [], saveCode = null, sharedLink = false, autosave = JSON.parse(localStorage.getItem("escSortAutosave")), theme = localStorage.getItem("escSortTheme"), yr, codeset, codesetSet = false;
 if (autosave === null) autosave = true;
 switch (theme) {
 	case "dark": theme = "dark"; document.documentElement.classList.add("dark-theme"); break;
 	default: theme = "light";
 }
-var toCode = { at: "A", be: "B", cz: "C", de: "D", es: "E", fr: "F", gb: "G", hu: "H", it: "I", is: "J", kz: "K", lu: "L", mt: "M", no: "N", au: "O", pt: "P", mk: "Q", ro: "R", se: "S", tr: "T", ua: "U", si: "V", wa: "W", hr: "X", yu: "Y", az: "Z", am: "a", bg: "b", cy: "c", dk: "d", ee: "e", fi: "f", gr: "g", ch: "h", il: "i", ie: "j", ks: "k", lv: "l", me: "m", nl: "n", md: "o", pl: "p", al: "q", ru: "r", rs: "s", lt: "t", us: "u", sk: "v", mc: "w", ah: "x", by: "y", ba: "z", ma: "0", li: "1", ad: "2", lb: "3", ps: "4", sm: "5", ge: "6", ts: "7", fo: "8", aa: "9", cs: "+", ab: "-", kk: "*", eh: "/", ca: "^", os: "_", ax: "@", ce: "=" };
+var toCode = {
+	eu: { at: "A", be: "B", cz: "C", de: "D", es: "E", fr: "F", gb: "G", hu: "H", it: "I", is: "J", kz: "K", lu: "L", mt: "M", no: "N", au: "O", pt: "P", mk: "Q", ro: "R", se: "S", tr: "T", ua: "U", si: "V", wa: "W", hr: "X", yu: "Y", az: "Z", am: "a", bg: "b", cy: "c", dk: "d", ee: "e", fi: "f", gr: "g", ch: "h", il: "i", ie: "j", ks: "k", lv: "l", me: "m", nl: "n", md: "o", pl: "p", al: "q", ru: "r", rs: "s", lt: "t", us: "u", sk: "v", mc: "w", ah: "x", by: "y", ba: "z", ma: "0", li: "1", ad: "2", lb: "3", ps: "4", sm: "5", ge: "6", ts: "7", fo: "8", aa: "9", cs: "+", ab: "-", kk: "*", eh: "/", ca: "^", os: "_", ax: "@", ce: "=" },
+	us: { oh: "I", al: "B", in: "n", gu: "6", hi: "H", ut: "U", ia: "a", ak: "k", ks: "K", tn: "T", ms: "p", nv: "N", id: "d", me: "e", tx: "X", ar: "A", mt: "M", or: "O", il: "l", co: "C", de: "E", ga: "G", va: "V", ok: "o", az: "Z", wi: "W", mo: "m", ne: "b", mi: "c", fl: "F", md: "r", la: "L", ct: "t", ky: "y", nj: "J", ny: "w", vt: "v", wy: "Y", ma: "u", ca: "f", nd: "8", sd: "S", mn: "i", nm: "x", pr: "Q", as: "5", nc: "z", pa: "P", wa: "2", ri: "R", vi: "j", wv: "g", nh: "h", dc: "D", sc: "s", mp: "q" },
+	ca: { on: "O", qc: "Q", ns: "s", nb: "b", mb: "M", bc: "B", pe: "P", sk: "S", ab: "A", nl: "L", nt: "T", yt: "Y", nu: "N" }
+};
 var fromCode = {};
-for (let idx in toCode) { fromCode[toCode[idx]] = idx }
 {
 	let addEntry = function (code, show, country, artist, song, note) {
+		if (!codesetSet) {
+			toCode = toCode[codeset ?? "eu"];
+			for (let idx in toCode) { fromCode[toCode[idx]] = idx }
+			codesetSet = true;
+		}
 		entryInfo[code] = {"country": country, "show": show, "artist": artist, "song": song};
 		if (typeof note !== "undefined") entryInfo[code].note = note;
 		noOfEntries++;
@@ -70,7 +78,13 @@ function defaultOrder() {
 	//order = order.sort(() => (Math.random() - 0.5));
 }
 function initTable() {
-	var headers = ["Rank", "Country", "Artist", "Song"];
+	var countryStr;
+	switch (codeset) {
+		case "us": countryStr = "State/Territory"; break;
+		case "ca": countryStr = "Province/Territory"; break;
+		default: countryStr = "Country"; break;
+	}
+	var headers = ["Rank", countryStr, "Artist", "Song"];
 	var headerRow = document.createElement("TR");
 	for (var h of headers) headerRow.appendChild(document.createElement("TH")).appendChild(document.createTextNode(h));
 	table.appendChild(headerRow);
@@ -101,7 +115,7 @@ function createDOMs() {
 	for (var code of order) {
 		let e = entryInfo[code];
 		let flag = document.createElement("IMG");
-		flag.src = "../../flags/" + code + ".png";
+		flag.src = "../../flags/" + (codeset ?? "eu") + "/" + code + ".png";
 		flag.className = "flag";
 		let ctyCell = document.createElement("TD");
 		ctyCell.appendChild(flag);

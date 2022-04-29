@@ -1,5 +1,6 @@
 window.defineEntries = function (addEntry) {
-	yr = 2019;
+	yr = "2019";
+	codeset = "eu";
 	addEntry("al", 2, "Albania", "Jonida Maliqi", "Ktheju tokës", "Return to the land");
 	addEntry("am", 2, "Armenia", "Srbuk", "Walking Out");
 	addEntry("au", 1, "Australia", "Kate Miller-Heidke", "Zero Gravity");
