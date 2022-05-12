@@ -25,7 +25,7 @@ window.defineEntries = function (addEntry) {
 	addEntry("lv", 1, "Latvia", "Citi Zēni", "Eat Your Salad");
 	addEntry("lt", 1, "Lithuania", "Monika Liu", "Sentimentai", "Feelings");
 	addEntry("mt", 2, "Malta", "Emma Muscat", "I Am What I Am");
-	addEntry("md", 1, "Moldova", "Zdob și Zdub & Frații Advahov", "Trenulețul", "The little train");
+	addEntry("md", 1, "Moldova", "Zdob și Zdub & Advahov Brothers", "Trenulețul", "The little train");
 	addEntry("me", 2, "Montenegro", "Vladana", "Breathe");
 	addEntry("nl", 1, "Netherlands", "S10", "De diepte");
 	addEntry("mk", 2, "North Macedonia", "Andrea", "Circles");
